@@ -1,8 +1,8 @@
 #ifndef WINDOW_HH
 #define WINDOW_HH
 
-#include <glad/glad.h> // must come before GLFW
 #include <GLFW/glfw3.h>
+#include <Windows.h>
 
 #include <memory>
 
@@ -26,13 +26,13 @@ struct WindowDeleter
 
 using WindowPtr = std::unique_ptr<::GLFWwindow, WindowDeleter>;
 
-// RAII wrapper around a GLFW window plus its OpenGL 4.6 core context
+// RAII wrapper around a fixed-size GLFW window used only for windowing and input (no graphics API)
 class Window
 {
 
 public:
 
-    // inits GLFW, opens the window, makes the context current, and loads OpenGL via GLAD
+    // inits GLFW and opens a fixed-size window with no OpenGL context
     Window(int width, int height, const char* title);
 
     // destroys the window and shuts GLFW down
@@ -49,14 +49,20 @@ public:
     // asks the loop to end on the next check of shouldClose()
     void close();
 
-    // shows the frame drawn into the hidden back buffer
-    void swap();
-
-    // collects pending OS events (input, resize, close button); call once per frame
+    // collects pending OS events (input, close button); call once per frame
     void pollEvents();
 
     // true while the given GLFW_KEY_* is held, as of the last pollEvents()
     bool key(int k) const;
+
+    // native Win32 window handle, which Direct3D's swap chain attaches to
+    ::HWND hwnd() const;
+
+    // window width in pixels
+    int width() const;
+
+    // window height in pixels
+    int height() const;
 
     // raw handle, for things like the ImGui backend
     ::GLFWwindow* handle() const;
@@ -64,6 +70,8 @@ public:
 private:
 
     WindowPtr m_window { nullptr }; // owned GLFW window
+    int m_width { 0 };              // client width in pixels
+    int m_height { 0 };             // client height in pixels
 
 };
 

@@ -1,8 +1,11 @@
 #include "Window.hh"
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+
 #include <stdexcept>
 
-Window::Window(int width, int height, const char* title)
+Window::Window(int width, int height, const char* title) : m_width { width }, m_height { height }
 {
 
     if (!::glfwInit())
@@ -12,10 +15,9 @@ Window::Window(int width, int height, const char* title)
 
     }
 
-    // request an OpenGL 4.6 core context
-    ::glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    ::glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    ::glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // no OpenGL context (Direct3D draws instead) and a fixed size
+    ::glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    ::glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     m_window.reset(::glfwCreateWindow(width, height, title, nullptr, nullptr));
 
@@ -24,19 +26,6 @@ Window::Window(int width, int height, const char* title)
 
         ::glfwTerminate();
         throw std::runtime_error { "glfwCreateWindow failed" };
-
-    }
-
-    // bind the context, turn vsync off so benchmarks aren't capped, then load OpenGL
-    ::glfwMakeContextCurrent(m_window.get());
-    ::glfwSwapInterval(0);
-
-    if (!::gladLoadGLLoader(reinterpret_cast<::GLADloadproc>(::glfwGetProcAddress)))
-    {
-
-        m_window.reset();
-        ::glfwTerminate();
-        throw std::runtime_error { "gladLoadGLLoader failed" };
 
     }
 
@@ -64,13 +53,6 @@ void Window::close()
 
 }
 
-void Window::swap()
-{
-
-    ::glfwSwapBuffers(m_window.get());
-
-}
-
 void Window::pollEvents()
 {
 
@@ -82,6 +64,27 @@ bool Window::key(int k) const
 {
 
     return ::glfwGetKey(m_window.get(), k) == GLFW_PRESS;
+
+}
+
+::HWND Window::hwnd() const
+{
+
+    return ::glfwGetWin32Window(m_window.get());
+
+}
+
+int Window::width() const
+{
+
+    return m_width;
+
+}
+
+int Window::height() const
+{
+
+    return m_height;
 
 }
 

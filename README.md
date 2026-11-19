@@ -1,1 +1,1 @@
-﻿A 3D rigid body physics engine written from scratch in C++: boxes and spheres that fall, tumble, collide, slide with friction, and stack into stable towers, with an interactive OpenGL sandbox for throwing objects and knocking structures over.
+﻿A 3D rigid body physics engine written from scratch in C++: boxes and spheres that fall, tumble, collide, slide with friction, and stack into stable towers, with an interactive Direct3D 11 sandbox for throwing objects and knocking structures over.
