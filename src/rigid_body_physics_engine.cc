@@ -1,4 +1,4 @@
-﻿#include "Window.hh"
+#include "Window.hh"
 
 #include <print>
 
@@ -6,7 +6,7 @@ int main()
 {
 
     // open a 1280x720 window with an OpenGL 4.6 context and print which GPU we got
-    Window window { 1280, 720, "Soft Body Physics Engine" };
+    Window window { 1280, 720, "Rigid Body Physics Engine" };
     std::println("{} | OpenGL {}", reinterpret_cast<const char*>(::glGetString(GL_RENDERER)), reinterpret_cast<const char*>(::glGetString(GL_VERSION)));
 
     // keep running until closed (on escape key), keep redrawing and handle input

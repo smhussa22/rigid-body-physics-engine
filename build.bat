@@ -7,5 +7,5 @@ set "PATH=%PATH%;%VS%\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%VS
 cd /d "%~dp0"
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release || exit /b 1
 cmake --build build || exit /b 1
-if /i "%1"=="run" build\soft_body_physics_engine.exe
+if /i "%1"=="run" build\rigid_body_physics_engine.exe
 

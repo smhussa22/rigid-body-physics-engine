@@ -1,1 +1,1 @@
-﻿A real time 3D soft body physics engine written in C++ and OpenGL, simulating jelly-like squishy objects that fall, bounce, keep their volume, and can be grabbed and thrown.
+﻿A 3D rigid body physics engine written from scratch in C++: boxes and spheres that fall, tumble, collide, slide with friction, and stack into stable towers, with an interactive OpenGL sandbox for throwing objects and knocking structures over.
